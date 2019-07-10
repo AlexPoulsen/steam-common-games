@@ -10,7 +10,6 @@ def add_user(username: str, steamkey: str):
 	userinfo = soup.find('div', "panel-body")
 	ids = userinfo.find_all("code")
 	print(f"using steam id `{ids[2].string}` for custom username `{username}`")
-	print(requests.get(f"http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={steamkey}&steamid={ids[2].string}&format=json"))
 	steam_games_json = requests.get(f"http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={steamkey}&steamid={ids[2].string}&format=json").json()["response"]
 	print("found", steam_games_json["game_count"], "games")
 	out = []
@@ -32,6 +31,14 @@ def add_user(username: str, steamkey: str):
 					unknown_counter += 1
 				else:
 					log_char = "V"
+					unknown_with_playtime_counter += 1
+				needs_store_page = True
+			elif "Test App" in gamename:
+				if game['playtime_forever'] == 0 or game['playtime_forever'] == "0":
+					log_char = "t"
+					unknown_counter += 1
+				else:
+					log_char = "T"
 					unknown_with_playtime_counter += 1
 				needs_store_page = True
 			elif "UntitledApp" in gamename:
@@ -75,9 +82,9 @@ def add_user(username: str, steamkey: str):
 			print("!", end="")
 			failed_counter += 1
 	print(" |\n+-", "-" * steam_games_json["game_count"], "-+", sep="")
-	print("| #/0     added", games_counter + zero_play_counter, "games")
-	print("| UV-/uv_ added", unknown_counter + unknown_with_playtime_counter, "games with default or no name using store page (slower)")
-	print("| !/^    ", failed_counter, "empty json responses and games without a name retrievable in any way were not added")
+	print("| #/0       added", games_counter + zero_play_counter, "games")
+	print("| UVT-/uvt_ added", unknown_counter + unknown_with_playtime_counter, "games with default or no name using store page (slower)")
+	print("| !/^      ", failed_counter, "empty json responses and games without a name retrievable in any way were not added")
 	print("+-------------------------------------------")
 	print("| added", steam_games_json["game_count"] - failed_counter, "games in total")
 	# print("| added", games_counter + zero_play_counter + unknown_counter + unknown_with_playtime_counter, "games in total")
