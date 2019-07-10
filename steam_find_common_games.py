@@ -146,3 +146,26 @@ def find_shared(percent: float = 0.8, min_minutes: int = 5, *users):
 					game.append(game_playtime[i])
 					out.append(game)
 		return out
+
+
+def prettify(input_list, limit: int = -1):
+	temp_list = []
+	for game in input_list:
+		temp_list.append([game[2], game[1]])
+	temp_list.sort()
+	temp_list.reverse()
+	if limit < 0:
+		for game in temp_list:
+			print(game[1])
+	else:
+		counter = 0
+		for game in temp_list:
+			print(game[1])
+			counter += 1
+			if counter >= limit:
+				break
+
+
+prettify(find_shared(0.5, 5, alix, vivvy, avery))
+print()
+prettify(find_shared(0.5, 5, alix, vivvy, avery), 10)
