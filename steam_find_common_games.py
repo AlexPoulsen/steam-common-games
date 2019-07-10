@@ -95,3 +95,54 @@ def add_user(username: str, steamkey: str):
 
 alix = add_user("rocketpoweredtennisball", "add your steam api key here")
 print(alix)
+vivvy = add_user("sheeporgoat", "add your steam api key here")
+print(vivvy)
+avery = add_user("Avery_Allbright", "add your steam api key here")
+print(avery)
+
+
+def find_shared(percent: float = 0.8, min_minutes: int = 5, *users):
+	longest_index = -1
+	longest_len = -1
+	for index, user in enumerate(users):
+		user.sort()
+		if len(user) > longest_len:
+			longest_len = len(user)
+			longest_index = index
+	# users[0], users[longest_index] = users[longest_index], users[0]
+	users = [users[longest_index], *users[:longest_index], *users[longest_index+1:]]
+	matches = []
+	for user in users[1:]:
+		user_matches = []
+		for game in users[0]:
+			for game2 in user:
+				if game[0] == game2[0]:  # steam appid matches
+					user_matches.append(game2)
+					break
+		matches.append(user_matches)
+	if len(matches) == 1:  # only two users were entered
+		return matches
+	else:
+		all_games_no_playtime = []
+		game_playtime = []
+		users_with_game = []
+		for user_matches in matches:
+			for game in user_matches:
+				# print(game[1])
+				if game[0:2] in all_games_no_playtime:
+					users_with_game[all_games_no_playtime.index(game[0:2])] += 1
+					# print("incrementing game", game[1])
+					game_playtime[all_games_no_playtime.index(game[0:2])] += game[2]
+				else:
+					all_games_no_playtime.append(game[0:2])
+					users_with_game.append(2)
+					game_playtime.append(game[2])
+		# for i, game in enumerate(all_games):
+		# 	print(game[1], ", with ", users_with_game[i], " users", sep="")
+		out = []
+		for i, game in enumerate(all_games_no_playtime):
+			if users_with_game[i] / len(users) >= percent:
+				if game_playtime[i] >= min_minutes:
+					game.append(game_playtime[i])
+					out.append(game)
+		return out
