@@ -99,6 +99,14 @@ vivvy = add_user("sheeporgoat", "add your steam api key here")
 print(vivvy)
 avery = add_user("Avery_Allbright", "add your steam api key here")
 print(avery)
+basil = add_user("kirbypowered", "add your steam api key here")
+print(basil)
+
+
+alix.append([875239572, "Minecraft", 60000])
+avery.append([875239572, "Minecraft", 7000])
+vivvy.append([875239572, "Minecraft", 20000])
+basil.append([875239572, "Minecraft", 25000])
 
 
 def find_shared(percent: float = 0.8, min_minutes: int = 5, *users):
@@ -121,7 +129,7 @@ def find_shared(percent: float = 0.8, min_minutes: int = 5, *users):
 					break
 		matches.append(user_matches)
 	if len(matches) == 1:  # only two users were entered
-		return matches
+		return matches[0]
 	else:
 		all_games_no_playtime = []
 		game_playtime = []
@@ -166,6 +174,6 @@ def prettify(input_list, limit: int = -1):
 				break
 
 
-prettify(find_shared(0.5, 5, alix, vivvy, avery))
-print()
-prettify(find_shared(0.5, 5, alix, vivvy, avery), 10)
+prettify(find_shared(0.7, 5, alix, vivvy, avery, basil))
+# print()
+# prettify(find_shared(0.7, 5, alix, vivvy, avery, basil), 10)
