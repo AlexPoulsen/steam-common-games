@@ -93,20 +93,13 @@ def add_user(username: str, steamkey: str):
 	return out
 
 
-alix = add_user("rocketpoweredtennisball", "add your steam api key here")
-print(alix)
-vivvy = add_user("sheeporgoat", "add your steam api key here")
-print(vivvy)
-avery = add_user("Avery_Allbright", "add your steam api key here")
-print(avery)
-basil = add_user("kirbypowered", "add your steam api key here")
-print(basil)
+user1 = add_user("username1", "add your steam api key here")
+print(user1)
+user2 = add_user("username2", "add your steam api key here")
+print(user2)
+									
 
-
-alix.append([875239572, "Minecraft", 60000])
-avery.append([875239572, "Minecraft", 7000])
-vivvy.append([875239572, "Minecraft", 20000])
-basil.append([875239572, "Minecraft", 25000])
+user1.append([875239572, "Minecraft", 60000])
 
 
 def find_shared(percent: float = 0.8, min_minutes: int = 5, *users):
@@ -174,6 +167,4 @@ def prettify(input_list, limit: int = -1):
 				break
 
 
-prettify(find_shared(0.7, 5, alix, vivvy, avery, basil))
-# print()
-# prettify(find_shared(0.7, 5, alix, vivvy, avery, basil), 10)
+prettify(find_shared(0.7, 5, user1, user2))
